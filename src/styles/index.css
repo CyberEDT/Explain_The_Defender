@@ -1,0 +1,239 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* =============================================
+   ETD — EXPLAIN THE DEFENDER
+   Global Styles & Design System
+   ============================================= */
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg-primary text-text-primary font-sans antialiased;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(37, 99, 235, 0.1) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 0%, rgba(16, 185, 129, 0.05) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
+    min-height: 100vh;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.5); /* Dark Navy */
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.3); /* Electric Blue */
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.5);
+  }
+}
+
+@layer components {
+  /* ---- Glassmorphism ---- */
+  .glass {
+    background: rgba(15, 23, 42, 0.65); /* Dark Navy */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(59, 130, 246, 0.15); /* Defender Blue Subtle */
+  }
+
+  .glass-bright {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  /* ---- Cards ---- */
+  .etd-card {
+    @apply glass rounded-xl p-6 shadow-card transition-all duration-300;
+  }
+
+  .etd-card:hover {
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 32px rgba(2, 6, 23, 0.8), 0 0 20px rgba(37, 99, 235, 0.20); /* Card Glow */
+  }
+
+  /* ---- Buttons ---- */
+  .btn-primary {
+    @apply px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.8), rgba(6, 182, 212, 0.8));
+    border: 1px solid rgba(37, 99, 235, 0.8);
+    color: #FFFFFF;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 1), rgba(6, 182, 212, 1));
+    border-color: rgba(37, 99, 235, 1);
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+  }
+
+  .btn-ghost {
+    @apply px-4 py-2 rounded-lg font-medium text-sm text-text-secondary transition-all duration-200;
+    border: 1px solid rgba(59, 130, 246, 0.15);
+  }
+
+  .btn-ghost:hover {
+    @apply text-text-primary;
+    border-color: rgba(59, 130, 246, 0.4);
+    background: rgba(59, 130, 246, 0.1);
+  }
+
+  /* ---- Severity Badges ---- */
+  .badge-info {
+    @apply px-2 py-0.5 rounded text-xs font-medium;
+    background: rgba(59, 130, 246, 0.15); /* Electric Blue */
+    color: #3B82F6;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  .badge-low {
+    @apply px-2 py-0.5 rounded text-xs font-medium;
+    background: rgba(34, 197, 94, 0.15); /* Emerald Green */
+    color: #22C55E;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .badge-medium {
+    @apply px-2 py-0.5 rounded text-xs font-medium;
+    background: rgba(245, 158, 11, 0.15); /* Orange / Accent */
+    color: #F59E0B;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  .badge-high {
+    @apply px-2 py-0.5 rounded text-xs font-medium;
+    background: rgba(239, 68, 68, 0.15); /* Red / Accent */
+    color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .badge-critical {
+    @apply px-2 py-0.5 rounded text-xs font-medium;
+    background: rgba(153, 27, 27, 0.15); /* Dark Red */
+    color: #991B1B;
+    border: 1px solid rgba(153, 27, 27, 0.3);
+  }
+
+  /* ---- Code blocks ---- */
+  .code-block {
+    @apply font-mono text-sm rounded-lg p-4;
+    background: rgba(2, 6, 23, 0.8); /* Cyber Black */
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    color: #3B82F6;
+  }
+
+  /* ---- Section Headings ---- */
+  .section-title {
+    @apply text-xs font-semibold uppercase tracking-widest text-text-muted;
+  }
+
+  /* ---- Glow effects ---- */
+  .glow-cyan { box-shadow: 0 0 20px rgba(6, 182, 212, 0.3); }
+  .glow-blue { box-shadow: 0 0 20px rgba(37, 99, 235, 0.3); }
+  .glow-green { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+  .glow-orange { box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
+  .glow-red { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+
+  /* ---- Active Nav item ---- */
+  .nav-active {
+    background: rgba(37, 99, 235, 0.1);
+    border-left: 2px solid #2563EB;
+    color: #3B82F6;
+  }
+
+  /* ---- Defense Chain Stage Glow (Updated to new theme colors) ---- */
+  .stage-detect { border-color: rgba(59, 130, 246, 0.4); box-shadow: 0 0 16px rgba(59, 130, 246, 0.15); }
+  .stage-triage { border-color: rgba(37, 99, 235, 0.4); box-shadow: 0 0 16px rgba(37, 99, 235, 0.15); }
+  .stage-investigate { border-color: rgba(29, 78, 216, 0.4); box-shadow: 0 0 16px rgba(29, 78, 216, 0.15); }
+  .stage-contain { border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 0 16px rgba(245, 158, 11, 0.15); }
+  .stage-eradicate { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 16px rgba(239, 68, 68, 0.15); }
+  .stage-recover { border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 0 16px rgba(16, 185, 129, 0.15); }
+  .stage-improve { border-color: rgba(34, 197, 94, 0.4); box-shadow: 0 0 16px rgba(34, 197, 94, 0.15); }
+
+  /* ---- Animated gradient border ---- */
+  .gradient-border {
+    position: relative;
+  }
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.6), rgba(16, 185, 129, 0.6));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* ---- Pulse animation for active stages ---- */
+  .pulse-ring {
+    animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  @keyframes pulseRing {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.97); }
+  }
+
+  /* ---- Scrollable table container ---- */
+  .table-container {
+    @apply overflow-x-auto rounded-xl;
+    scrollbar-width: thin;
+  }
+}
+
+/* =============================================
+   PRINT STYLES FOR REPORT EXPORT
+   ============================================= */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  /* Ensure backgrounds render for colored boxes */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
+
+  .print\:break-inside-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Specific theme overrides for print */
+  .bg-\[\#020617\], .bg-\[\#0F172A\], .bg-\[\#1E293B\] {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .text-text-primary, .text-text-secondary, .text-text-muted {
+    color: #0F172A !important;
+  }
+
+  .border-border-DEFAULT, .border-border-subtle {
+    border-color: #e5e7eb !important;
+  }
+}
