@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
+import { CILBanner } from './CILBanner';
 
 export default function Layout() {
   return (
@@ -12,6 +13,10 @@ export default function Layout() {
         <div className="print:hidden">
           <Topbar />
         </div>
+        {/* CyberEDT Intelligence Layer — shows when session is active */}
+        <div className="print:hidden">
+          <CILBanner />
+        </div>
         <main className="flex-1 overflow-y-auto print:overflow-visible print:p-0">
           <div className="p-6 animate-fade-in print:p-0 print:animate-none">
             <Outlet />
@@ -21,3 +26,4 @@ export default function Layout() {
     </div>
   );
 }
+

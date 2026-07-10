@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://explainthedefender.cyberedt.com/sitemap.xml

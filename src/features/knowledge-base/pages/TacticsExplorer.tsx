@@ -1,7 +1,9 @@
 import { windowsEventKB } from '../../../knowledge-base/event-intel/windowsEvents';
 import { KnowledgeEngine } from '../../../core/KnowledgeEngine';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Search, Shield, CheckSquare } from 'lucide-react';
+import { useDebounce } from '../../../hooks/useDebounce';
+import { EmptyState } from '../../ui/EmptyState';
 import type { DetectionObject } from '../../../types';
 import { DEFENSE_CHAIN_STAGES } from '../../../data/defenseChain';
 
@@ -11,12 +13,18 @@ export default function TacticsExplorer() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
   const [selected, setSelected] = useState<DetectionObject | null>(null);
+  
+  const debouncedSearch = useDebounce(search, 300);
 
-  const filtered = windowsEventKB.filter(e => {
-    const matchCat = category === 'All' || e.telemetrySource === category;
-    const matchSearch = search === '' || e.name.toLowerCase().includes(search.toLowerCase()) || e.signatureId.includes(search);
-    return matchCat && matchSearch;
-  });
+  const filtered = useMemo(() => {
+    return windowsEventKB.filter(e => {
+      const matchCat = category === 'All' || e.telemetrySource === category;
+      const matchSearch = debouncedSearch === '' || 
+        e.name.toLowerCase().includes(debouncedSearch.toLowerCase()) || 
+        e.signatureId.includes(debouncedSearch);
+      return matchCat && matchSearch;
+    });
+  }, [category, debouncedSearch]);
 
   const sevColor: Record<string, string> = { informational: '#64748b', low: '#22d3ee', medium: '#fbbf24', high: '#fb923c', critical: '#f87171' };
 
@@ -35,8 +43,16 @@ export default function TacticsExplorer() {
       <div className="flex gap-3 flex-wrap">
         <div className="relative flex-1 min-w-48">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
-          <input id="tactics-search" type="text" placeholder="Search events..." value={search} onChange={e => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-sm rounded-lg bg-black/20 border border-border-subtle text-text-secondary placeholder-text-muted focus:outline-none focus:border-border-bright" />
+          <input 
+            id="tactics-search" 
+            type="text" 
+            maxLength={100}
+            aria-label="Search security events"
+            placeholder="Search events..." 
+            value={search} 
+            onChange={e => setSearch(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 text-sm rounded-lg bg-black/20 border border-border-subtle text-text-secondary placeholder-text-muted focus:outline-none focus:border-border-bright" 
+          />
         </div>
         <div className="flex gap-2 flex-wrap">
           {categories.map(cat => (
@@ -51,7 +67,14 @@ export default function TacticsExplorer() {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Event List */}
         <div className="xl:col-span-1 space-y-2">
-          {filtered.map(evt => (
+          {filtered.length === 0 ? (
+            <EmptyState 
+              title="No events found" 
+              message={`We couldn't find any security events matching "${debouncedSearch}".`} 
+              icon="search"
+            />
+          ) : (
+            filtered.map(evt => (
             <div key={evt.id}
               onClick={() => setSelected(evt)}
               className={`p-4 rounded-xl cursor-pointer transition-all duration-200 ${selected?.id === evt.id ? 'glass-bright' : 'hover:bg-white/[0.03]'}`}
@@ -67,7 +90,7 @@ export default function TacticsExplorer() {
               <div className="text-sm font-medium text-text-primary">{evt.name}</div>
               <div className="text-xs text-text-muted mt-1">{evt.telemetrySource}</div>
             </div>
-          ))}
+          )))}
         </div>
 
         {/* Detail Panel */}

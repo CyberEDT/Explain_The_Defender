@@ -1,6 +1,18 @@
 import { Search, Bell, AlertTriangle, Clock } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useDebounce } from '../../../hooks/useDebounce';
 
 export default function Topbar() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearch = useDebounce(searchQuery, 300);
+
+  useEffect(() => {
+    // Future integration point for global search
+    if (debouncedSearch) {
+      // console.log('Global search trigger:', debouncedSearch);
+    }
+  }, [debouncedSearch]);
+
   const now = new Date();
   const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
   const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
@@ -14,6 +26,10 @@ export default function Topbar() {
           <input
             id="global-search"
             type="text"
+            maxLength={100}
+            aria-label="Search events, incidents, rules"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search events, incidents, rules..."
             className="w-full pl-9 pr-4 py-1.5 text-sm rounded-lg bg-black/20 border border-border-subtle text-text-secondary placeholder-text-muted focus:outline-none focus:border-border-bright focus:text-text-primary transition-all"
           />
